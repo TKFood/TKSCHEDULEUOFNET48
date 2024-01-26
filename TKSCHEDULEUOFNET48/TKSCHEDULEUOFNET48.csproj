@@ -34,6 +34,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ede.Uof.EIP.Organization.Util">
+      <HintPath>..\..\..\Users\j\Desktop\BIN\Ede.Uof.EIP.Organization.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="Ede.Uof.EIP.SystemInfo">
+      <HintPath>..\..\..\Users\j\Desktop\BIN\Ede.Uof.EIP.SystemInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Ede.Uof.Utility">
+      <HintPath>..\..\..\Users\j\Desktop\BIN\Ede.Uof.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="Ede.Uof.Utility.Data">
+      <HintPath>..\..\..\Users\j\Desktop\BIN\Ede.Uof.Utility.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Ede.Uof.Utility.Page.Common">
+      <HintPath>..\..\..\Users\j\Desktop\BIN\Ede.Uof.Utility.Page.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ede.Uof.Web">
+      <HintPath>..\..\..\Users\j\Desktop\BIN\Ede.Uof.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Ede.Uof.WKF">
+      <HintPath>..\..\..\Users\j\Desktop\BIN\Ede.Uof.WKF.dll</HintPath>
+    </Reference>
     <Reference Include="FastReport, Version=2017.4.1.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Program Files (x86)\FastReports\FastReport.Net\FastReport.dll</HintPath>
@@ -45,6 +66,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -109,7 +131,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
