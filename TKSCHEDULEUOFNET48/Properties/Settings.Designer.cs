@@ -22,5 +22,15 @@ namespace TKSCHEDULEUOFNET48.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://eip.tkfood.com.tw/UOF/PublicAPI/System/Authentication.asmx")]
+        public string TKSCHEDULEUOFNET48_Auth_Authentication {
+            get {
+                return ((string)(this["TKSCHEDULEUOFNET48_Auth_Authentication"]));
+            }
+        }
     }
 }

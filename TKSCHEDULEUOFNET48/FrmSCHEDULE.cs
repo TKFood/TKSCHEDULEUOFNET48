@@ -24,7 +24,7 @@ using Ede.Uof.Utility.Page.Common;
 using Ede.Uof.EIP.SystemInfo;
 using Ede.Uof.Web.PublicAPI.WKF;
 using Ede.Uof.EIP.Organization.Util;
-
+using System.Security.Cryptography;
 
 namespace TKSCHEDULEUOFNET48
 {
@@ -37,7 +37,15 @@ namespace TKSCHEDULEUOFNET48
 
 
         #region FUNCTION
-
+        private string RSAEncrypt(string publicKey, string crText)
+        {
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            byte[] base64PublicKey = Convert.FromBase64String(publicKey);
+            rsa.FromXmlString(System.Text.Encoding.UTF8.GetString(base64PublicKey));
+            byte[] ctTextArray = Encoding.UTF8.GetBytes(crText);
+            byte[] decodeBs = rsa.Encrypt(ctTextArray, false);
+            return Convert.ToBase64String(decodeBs);
+        }
         #endregion
 
         #region BUTTON
@@ -45,9 +53,19 @@ namespace TKSCHEDULEUOFNET48
         {
             UserUCO useruco = new UserUCO();
             EBUser ebuser = useruco.GetEBUser("b6f50a95-17ec-47f2-b842-4ad12512b431");
+
+            string publicKey = "PFJTQUtleVZhbHVlPjxNb2R1bHVzPitNdXJpamQxZ3YzMmZkVzlZUXdBNVNPa3g3bHR4cFUxYlM2UjZaRGU3Y2hXWFpJQVBXMitiRkVacTRUMEIrR3VTVUFkNDl5QnBkVUtFek1Sa1RwcGtaVFlkVGNOeTBJcVc4UVluWWRXNWdNQjRyNitjZGpobTRPamEyaGJybDVYQzdsY3N6cGVDSUg4TzZ1REQ5N0kxdjBUYUlHZkphejFiM2l6Y3h5R1R6VT08L01vZHVsdXM+PEV4cG9uZW50PkFRQUI8L0V4cG9uZW50PjwvUlNBS2V5VmFsdWU+";
+            string NAME = RSAEncrypt(publicKey, "iteng");
+            string PS= RSAEncrypt(publicKey, "P@ssw0rd0");
+
+            Auth.Authentication auth = new Auth.Authentication();
+            string TKID=auth.GetToken("IT", NAME, PS);
+
             // public string SignNext2(string token, string taskId, string siteId, int nodeSeq, string signerGuid);
-            //Wkf wkf = new Wkf();
-            //wkf.SignNext2("","","",0,"");
+            Wkf wkf = new Wkf();
+           
+            wkf.SignNext2("", "", "", 0, "");
+
         }
         #endregion
     }
