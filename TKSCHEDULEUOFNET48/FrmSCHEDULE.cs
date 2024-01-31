@@ -60,11 +60,17 @@ namespace TKSCHEDULEUOFNET48
 
             Auth.Authentication auth = new Auth.Authentication();
             string TKID=auth.GetToken("IT", NAME, PS);
+            TKID = "AB536ED0CA9438AD6AB714880A37BF0BC68B866A652467F7";
+            TKID = "AB536ED0CA9438AD6AB714880A37BF0B2648F42CEE71B039";
 
             // public string SignNext2(string token, string taskId, string siteId, int nodeSeq, string signerGuid);
             Wkf wkf = new Wkf();
-           
-            wkf.SignNext2(TKID, "159cba2c-4e73-4bf4-8736-2c2e51fb6cf8", "2fdc6490-0bce-45b0-8464-6dcb5f681961", 0, "b6f50a95-17ec-47f2-b842-4ad12512b431");
+            string token = TKID;
+            string taskId = "9471adfd-9eec-4471-9ac9-7590ba345641";
+            string siteId = "c4be483a-6967-41b7-947e-4eed57e19fc0";
+            int nodeSeq = 0;
+            string signerGuid = "b6f50a95-17ec-47f2-b842-4ad12512b431";
+            wkf.SignNext2(token, taskId, siteId, nodeSeq, signerGuid);
 
         }
         #endregion
