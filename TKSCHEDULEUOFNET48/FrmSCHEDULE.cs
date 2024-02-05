@@ -22,7 +22,6 @@ using System.Text.RegularExpressions;
 using Ede.Uof.Utility.Data;
 using Ede.Uof.Utility.Page.Common;
 using Ede.Uof.EIP.SystemInfo;
-using Ede.Uof.Web.PublicAPI.WKF;
 using Ede.Uof.EIP.Organization.Util;
 using System.Security.Cryptography;
 
@@ -59,12 +58,15 @@ namespace TKSCHEDULEUOFNET48
             string PS= RSAEncrypt(publicKey, "P@ssw0rd0");
 
             Auth.Authentication auth = new Auth.Authentication();
+            auth.Url = "https://eip.tkfood.com.tw/UOF/PublicAPI/System/Authentication.asmx";
             string TKID=auth.GetToken("IT", NAME, PS);
-            TKID = "AB536ED0CA9438AD6AB714880A37BF0BC68B866A652467F7";
+            //TKID = "AB536ED0CA9438AD6AB714880A37BF0BC68B866A652467F7";
             //TKID = "AB536ED0CA9438AD6AB714880A37BF0B2648F42CEE71B039";
 
             // public string SignNext2(string token, string taskId, string siteId, int nodeSeq, string signerGuid);
-            Wkf wkf = new Wkf();
+            BPM.Wkf wkf = new BPM.Wkf();
+            wkf.Url ="https://eip.tkfood.com.tw/UOF/publicapi/wkf/wkf.asmx";
+
             string token = TKID;
             string taskId = "9471adfd-9eec-4471-9ac9-7590ba345641";
             string siteId = "c4be483a-6967-41b7-947e-4eed57e19fc0";

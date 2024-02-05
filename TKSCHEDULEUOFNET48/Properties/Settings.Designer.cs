@@ -32,5 +32,15 @@ namespace TKSCHEDULEUOFNET48.Properties {
                 return ((string)(this["TKSCHEDULEUOFNET48_Auth_Authentication"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://eip.tkfood.com.tw/UOF/publicapi/wkf/wkf.asmx")]
+        public string TKSCHEDULEUOFNET48_BPM_Wkf {
+            get {
+                return ((string)(this["TKSCHEDULEUOFNET48_BPM_Wkf"]));
+            }
+        }
     }
 }
