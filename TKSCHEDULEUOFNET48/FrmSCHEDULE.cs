@@ -63,16 +63,21 @@ namespace TKSCHEDULEUOFNET48
             //TKID = "AB536ED0CA9438AD6AB714880A37BF0BC68B866A652467F7";
             //TKID = "AB536ED0CA9438AD6AB714880A37BF0B2648F42CEE71B039";
 
-            // public string SignNext2(string token, string taskId, string siteId, int nodeSeq, string signerGuid);
+            
             BPM.Wkf wkf = new BPM.Wkf();
             wkf.Url ="https://eip.tkfood.com.tw/UOF/publicapi/wkf/wkf.asmx";
 
             string token = TKID;
-            string taskId = "9471adfd-9eec-4471-9ac9-7590ba345641";
-            string siteId = "c4be483a-6967-41b7-947e-4eed57e19fc0";
+            string taskId = "c0f23df0-ef97-4fb7-9d16-6f243b957cfc";
+            string siteId = "5d5c1b07-bf5c-4d55-a9e5-b2ebde53916d";
             int nodeSeq = 0;
             string signerGuid = "b6f50a95-17ec-47f2-b842-4ad12512b431";
-            wkf.SignNext2(token, taskId, siteId, nodeSeq, signerGuid);
+
+            //SignNext(string token, string taskId, string siteId, int nodeSeq, string signerGuid) 
+            //public string SignNext2(string token, string taskId, string siteId, int nodeSeq, string signerGuid);
+
+            wkf.SignNext(token, taskId, siteId, nodeSeq, signerGuid);
+            //wkf.SignNext2(token, taskId, siteId, nodeSeq, signerGuid);
 
         }
         #endregion
