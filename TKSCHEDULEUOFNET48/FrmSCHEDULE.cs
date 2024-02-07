@@ -53,7 +53,7 @@ namespace TKSCHEDULEUOFNET48
         public void FORM_AUTO_APPROVAL()
         {
 
-            DataTable DT_TASK = SEARCHUOFTB_WKF_TASK("COP240200051");
+            DataTable DT_TASK = SEARCHUOFTB_WKF_TASK();
 
             UserUCO useruco = new UserUCO();
             EBUser ebuser = useruco.GetEBUser("b6f50a95-17ec-47f2-b842-4ad12512b431");
@@ -73,7 +73,7 @@ namespace TKSCHEDULEUOFNET48
             wkf.Url = "https://eip.tkfood.com.tw/UOF/publicapi/wkf/wkf.asmx";
 
             string token = TKID;
-            string signerGuid = "b6f50a95-17ec-47f2-b842-4ad12512b431";
+            string signerGuid = "";
             string taskId = "";
             string siteId = "";
             int nodeSeq = 0;
@@ -84,6 +84,7 @@ namespace TKSCHEDULEUOFNET48
                     taskId = DR["TASK_ID"].ToString();
                     siteId = DR["SITE_ID"].ToString();
                     nodeSeq = Convert.ToInt32(DR["NODE_SEQ"].ToString());
+                    signerGuid= DR["ORIGINAL_SIGNER"].ToString();
                 }
 
             }
@@ -97,7 +98,7 @@ namespace TKSCHEDULEUOFNET48
             //wkf.SignNext2(token, taskId, siteId, nodeSeq, signerGuid);
 
         }
-        public DataTable SEARCHUOFTB_WKF_TASK(string DOC_NBR)
+        public DataTable SEARCHUOFTB_WKF_TASK()
         {
             SqlDataAdapter adapter1 = new SqlDataAdapter();
             SqlCommandBuilder sqlCmdBuilder1 = new SqlCommandBuilder();
@@ -126,16 +127,23 @@ namespace TKSCHEDULEUOFNET48
 
                 //庫存數量看LA009 IN ('20004','20006','20008','20019','20020'
 
-                sbSql.AppendFormat(@"  
-                                    SELECT TB_WKF_TASK.TASK_ID,SITE_ID,NODE_SEQ,ORIGINAL_SIGNER
-                                    FROM [UOF].[dbo].TB_WKF_TASK,[UOF].dbo.TB_WKF_TASK_NODE
+                sbSql.AppendFormat(@"                                     
+                                    SELECT TB_WKF_TASK.TASK_ID,SITE_ID,NODE_SEQ,ORIGINAL_SIGNER,TB_WKF_FORM.FORM_NAME,TB_WKF_TASK.DOC_NBR,TB_WKF_TASK.TASK_RESULT,TB_WKF_TASK.TASK_STATUS
+                                    FROM [UOF].[dbo].TB_WKF_TASK,[UOF].dbo.TB_WKF_TASK_NODE,[UOF].[dbo].TB_EB_USER,[UOF].[dbo].TB_WKF_FORM,[UOF].[dbo].TB_WKF_FORM_VERSION
                                     WHERE 1=1
                                     AND TB_WKF_TASK.TASK_ID=TB_WKF_TASK_NODE.TASK_ID
+                                    AND TB_WKF_TASK_NODE.ORIGINAL_SIGNER=TB_EB_USER.USER_GUID
+                                    AND TB_WKF_FORM.FORM_ID=TB_WKF_FORM_VERSION.FORM_ID
+                                    AND TB_WKF_TASK.FORM_VERSION_ID=TB_WKF_FORM_VERSION.FORM_VERSION_ID
+                                    AND TB_WKF_TASK.TASK_STATUS NOT IN ('2')
                                     AND ISNULL(TB_WKF_TASK_NODE.ACTUAL_SIGNER,'')=''
-                                    AND ORIGINAL_SIGNER='b6f50a95-17ec-47f2-b842-4ad12512b431'
-                                    AND DOC_NBR = '{0}'
+                                    AND TB_EB_USER.ACCOUNT+TB_WKF_FORM.FORM_NAME COLLATE Chinese_Taiwan_Stroke_BIN IN (
+                                    SELECT 
+                                    [ACCOUNT]+[FORM_NAME]
+                                    FROM [192.168.1.105].[TKSCHEDULEUOFNET48].[dbo].[TB_UOF_FORM_APPROVALS]
+                                    )
                               
-                                    ", DOC_NBR);
+                                    ");
 
 
                 adapter1 = new SqlDataAdapter(@"" + sbSql, sqlConn);
