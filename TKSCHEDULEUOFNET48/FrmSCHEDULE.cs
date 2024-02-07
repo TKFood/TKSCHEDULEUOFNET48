@@ -55,8 +55,8 @@ namespace TKSCHEDULEUOFNET48
 
             DataTable DT_TASK = SEARCHUOFTB_WKF_TASK();
 
-            UserUCO useruco = new UserUCO();
-            EBUser ebuser = useruco.GetEBUser("b6f50a95-17ec-47f2-b842-4ad12512b431");
+            //UserUCO useruco = new UserUCO();
+            //EBUser ebuser = useruco.GetEBUser("b6f50a95-17ec-47f2-b842-4ad12512b431");
 
             string publicKey = "PFJTQUtleVZhbHVlPjxNb2R1bHVzPitNdXJpamQxZ3YzMmZkVzlZUXdBNVNPa3g3bHR4cFUxYlM2UjZaRGU3Y2hXWFpJQVBXMitiRkVacTRUMEIrR3VTVUFkNDl5QnBkVUtFek1Sa1RwcGtaVFlkVGNOeTBJcVc4UVluWWRXNWdNQjRyNitjZGpobTRPamEyaGJybDVYQzdsY3N6cGVDSUg4TzZ1REQ5N0kxdjBUYUlHZkphejFiM2l6Y3h5R1R6VT08L01vZHVsdXM+PEV4cG9uZW50PkFRQUI8L0V4cG9uZW50PjwvUlNBS2V5VmFsdWU+";
             string NAME = RSAEncrypt(publicKey, "iteng");
