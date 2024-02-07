@@ -85,6 +85,8 @@ namespace TKSCHEDULEUOFNET48
                     siteId = DR["SITE_ID"].ToString();
                     nodeSeq = Convert.ToInt32(DR["NODE_SEQ"].ToString());
                     signerGuid= DR["ORIGINAL_SIGNER"].ToString();
+
+                    wkf.SignNext(token, taskId, siteId, nodeSeq, signerGuid);
                 }
 
             }
@@ -93,9 +95,9 @@ namespace TKSCHEDULEUOFNET48
 
             //SignNext(string token, string taskId, string siteId, int nodeSeq, string signerGuid) 
             //public string SignNext2(string token, string taskId, string siteId, int nodeSeq, string signerGuid);
-
-            wkf.SignNext(token, taskId, siteId, nodeSeq, signerGuid);
             //wkf.SignNext2(token, taskId, siteId, nodeSeq, signerGuid);
+
+            MessageBox.Show("完成");
 
         }
         public DataTable SEARCHUOFTB_WKF_TASK()
