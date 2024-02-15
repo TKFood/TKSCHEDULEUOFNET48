@@ -36,10 +36,34 @@ namespace TKSCHEDULEUOFNET48
         public FrmSCHEDULE()
         {
             InitializeComponent();
+
+            timer1.Enabled = true;
+            timer1.Interval = 1000 * 60;
+            //timer1.Interval = 1000 ;
+            timer1.Start();
         }
 
 
         #region FUNCTION
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //檢查當前時間是否在星期一到星期五
+            //早上 8 點到下午 6 點之間，如果是，則執行您的程式碼
+            //獲取當前時間
+            DateTime currentTime = DateTime.Now;
+
+            // 檢查是否為星期一到星期五
+            if (currentTime.DayOfWeek >= DayOfWeek.Monday && currentTime.DayOfWeek <= DayOfWeek.Saturday)
+            {
+                // 檢查是否在早上8:00到下午18:00之間
+                if (currentTime.Hour >= 8 && currentTime.Hour <= 18)
+                {
+                    // 執行您的程式碼
+                    FORM_AUTO_APPROVAL();
+                }
+            }
+        }
+
         private string RSAEncrypt(string publicKey, string crText)
         {
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
@@ -184,6 +208,10 @@ namespace TKSCHEDULEUOFNET48
         {
             FORM_AUTO_APPROVAL();
         }
+
+
         #endregion
+
+      
     }
 }
