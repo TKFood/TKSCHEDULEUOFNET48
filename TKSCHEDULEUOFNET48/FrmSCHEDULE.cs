@@ -59,7 +59,8 @@ namespace TKSCHEDULEUOFNET48
                 if (currentTime.Hour >= 8 && currentTime.Hour <= 18)
                 {
                     // 執行您的程式碼
-                    FORM_AUTO_APPROVAL();
+                    DataTable DT = SEARCHUOFTB_WKF_TASK();
+                    FORM_AUTO_APPROVAL(DT);
                 }
             }
         }
@@ -74,7 +75,7 @@ namespace TKSCHEDULEUOFNET48
             return Convert.ToBase64String(decodeBs);
         }
 
-        public void FORM_AUTO_APPROVAL()
+        public void FORM_AUTO_APPROVAL(DataTable DT)
         {
 
             //SignNext(string token, string taskId, string siteId, int nodeSeq, string signerGuid) 
@@ -83,7 +84,8 @@ namespace TKSCHEDULEUOFNET48
 
             try
             {
-                DataTable DT_TASK = SEARCHUOFTB_WKF_TASK();
+                //DataTable DT_TASK = SEARCHUOFTB_WKF_TASK();
+                DataTable DT_TASK = DT;
 
                 //UserUCO useruco = new UserUCO();
                 //EBUser ebuser = useruco.GetEBUser("b6f50a95-17ec-47f2-b842-4ad12512b431");
@@ -209,18 +211,28 @@ namespace TKSCHEDULEUOFNET48
             }
         }
 
+     
+
         #endregion
 
 
         #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {
-            FORM_AUTO_APPROVAL();
+            //SEARCHUOFTB_WKF_TASK，先找自動簽的工號+表單
+            DataTable DT= SEARCHUOFTB_WKF_TASK();
+
+            FORM_AUTO_APPROVAL(DT);
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //自動簽核-指定「100A.客戶基本資料表」的財務+總經理代簽
+          
         }
 
 
         #endregion
 
-      
+
     }
 }
