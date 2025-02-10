@@ -58,11 +58,35 @@ namespace TKSCHEDULEUOFNET48
                 // 檢查是否在早上8:00到下午18:00之間
                 if (currentTime.Hour >= 8 && currentTime.Hour <= 18)
                 {
-                    // 執行您的程式碼
-                    DataTable DT = SEARCHUOFTB_WKF_TASK();
-                    FORM_AUTO_APPROVAL(DT);
+                    DAILY_RUN();
                 }
             }
+        }
+
+        public void DAILY_RUN()
+        {     
+            try
+            {
+
+            }
+            catch { }
+            finally{ }
+            try
+            {
+                //指定自動簽核
+                DataTable DT = SEARCHUOFTB_WKF_TASK();
+                FORM_AUTO_APPROVAL(DT);
+            }
+            catch { }
+            finally { }
+            try
+            {
+                //自動簽核-指定「100A.客戶基本資料表」的財務+總經理代簽
+                DataTable DT = SEARCHUOFTB_WKF_TASK_100A();
+                FORM_AUTO_APPROVAL(DT);
+            }
+            catch { }
+            finally { }
         }
 
         private string RSAEncrypt(string publicKey, string crText)
@@ -77,6 +101,7 @@ namespace TKSCHEDULEUOFNET48
 
         public void FORM_AUTO_APPROVAL(DataTable DT)
         {
+
 
             //SignNext(string token, string taskId, string siteId, int nodeSeq, string signerGuid) 
             //public string SignNext2(string token, string taskId, string siteId, int nodeSeq, string signerGuid);
@@ -211,7 +236,83 @@ namespace TKSCHEDULEUOFNET48
             }
         }
 
-     
+        public DataTable SEARCHUOFTB_WKF_TASK_100A()
+        {
+            SqlDataAdapter adapter1 = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder1 = new SqlCommandBuilder();
+            DataSet ds1 = new DataSet();
+            StringBuilder sbSql = new StringBuilder();
+            StringBuilder sbSqlQuery = new StringBuilder();
+
+            try
+            {
+                //connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                //sqlConn = new SqlConnection(connectionString);
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbUOF"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+                //庫存數量看LA009 IN ('20004','20006','20008','20019','20020'
+
+                sbSql.AppendFormat(@"                                     
+                                    SELECT TB_WKF_TASK.TASK_ID,SITE_ID,NODE_SEQ,ORIGINAL_SIGNER,TB_WKF_FORM.FORM_NAME,TB_WKF_TASK.DOC_NBR,TB_WKF_TASK.TASK_RESULT,TB_WKF_TASK.TASK_STATUS
+                                    FROM [UOF].[dbo].TB_WKF_TASK,[UOF].dbo.TB_WKF_TASK_NODE,[UOF].[dbo].TB_EB_USER,[UOF].[dbo].TB_WKF_FORM,[UOF].[dbo].TB_WKF_FORM_VERSION
+                                    WHERE 1=1
+                                    AND TB_WKF_TASK.TASK_ID=TB_WKF_TASK_NODE.TASK_ID
+                                    AND TB_WKF_TASK_NODE.ORIGINAL_SIGNER=TB_EB_USER.USER_GUID
+                                    AND TB_WKF_FORM.FORM_ID=TB_WKF_FORM_VERSION.FORM_ID
+                                    AND TB_WKF_TASK.FORM_VERSION_ID=TB_WKF_FORM_VERSION.FORM_VERSION_ID
+                                    AND TB_WKF_TASK.TASK_STATUS NOT IN ('2')
+                                    AND ISNULL(TB_WKF_TASK_NODE.ACTUAL_SIGNER,'')=''
+                                    AND TB_EB_USER.ACCOUNT+TB_WKF_FORM.FORM_NAME COLLATE Chinese_Taiwan_Stroke_BIN IN (
+                                    SELECT 
+                                    [ACCOUNT]+[FORM_NAME]
+                                    FROM [192.168.1.105].[TKSCHEDULEUOFNET48].[dbo].[TB_UOF_FORM_APPROVALS_100A]
+                                    )
+                              
+                                    ");
+
+
+                adapter1 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder1 = new SqlCommandBuilder(adapter1);
+                sqlConn.Open();
+                ds1.Clear();
+                adapter1.Fill(ds1, "ds1");
+                sqlConn.Close();
+
+                if (ds1.Tables["ds1"].Rows.Count >= 1)
+                {
+                    return ds1.Tables["ds1"];
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+
 
         #endregion
 
@@ -227,7 +328,9 @@ namespace TKSCHEDULEUOFNET48
         private void button2_Click(object sender, EventArgs e)
         {
             //自動簽核-指定「100A.客戶基本資料表」的財務+總經理代簽
-          
+            DataTable DT = SEARCHUOFTB_WKF_TASK_100A();
+
+            FORM_AUTO_APPROVAL(DT);
         }
 
 
