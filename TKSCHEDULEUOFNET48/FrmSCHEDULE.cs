@@ -52,13 +52,13 @@ namespace TKSCHEDULEUOFNET48
 
             DataTable DT = SEARCHUOF_TB_APPROVAL_ACCOUNT();
 
-            if (DT!=null && DT.Rows.Count>=1)
+            if (DT != null && DT.Rows.Count >= 1)
             {
                 APPROVEAL_NAME = DT.Rows[0]["APPROVEAL_NAME"].ToString();
                 APPROVEAL_PS = DT.Rows[0]["APPROVEAL_PS"].ToString();
             }
 
-            
+
         }
         #region FUNCTION
         private void timer1_Tick(object sender, EventArgs e)
@@ -191,7 +191,7 @@ namespace TKSCHEDULEUOFNET48
 
                 //20210902密
                 Class1 TKID = new Class1();//用new 建立類別實體
-                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbUOF"].ConnectionString);
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
 
                 //資料庫使用者密碼解密
                 sqlsb.Password = TKID.Decryption(sqlsb.Password);
@@ -210,8 +210,7 @@ namespace TKSCHEDULEUOFNET48
                                     [APPROVEAL_NAME]
                                     ,[APPROVEAL_PS]
                                     FROM [TKSCHEDULEUOFNET48].[dbo].[TB_APPROVAL_ACCOUNT]
-                                    )
-                              
+                                                                 
                                     ");
 
 
