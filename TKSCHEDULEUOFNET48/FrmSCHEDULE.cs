@@ -117,7 +117,7 @@ namespace TKSCHEDULEUOFNET48
 
                 string publicKey = "PFJTQUtleVZhbHVlPjxNb2R1bHVzPitNdXJpamQxZ3YzMmZkVzlZUXdBNVNPa3g3bHR4cFUxYlM2UjZaRGU3Y2hXWFpJQVBXMitiRkVacTRUMEIrR3VTVUFkNDl5QnBkVUtFek1Sa1RwcGtaVFlkVGNOeTBJcVc4UVluWWRXNWdNQjRyNitjZGpobTRPamEyaGJybDVYQzdsY3N6cGVDSUg4TzZ1REQ5N0kxdjBUYUlHZkphejFiM2l6Y3h5R1R6VT08L01vZHVsdXM+PEV4cG9uZW50PkFRQUI8L0V4cG9uZW50PjwvUlNBS2V5VmFsdWU+";
                 string NAME = RSAEncrypt(publicKey, "iteng");
-                string PS = RSAEncrypt(publicKey, "P@ssw0rd0");
+                string PS = RSAEncrypt(publicKey, "PP@ssw0rd0");
 
                 Auth.Authentication auth = new Auth.Authentication();
                 auth.Url = "https://eip.tkfood.com.tw/UOF/PublicAPI/System/Authentication.asmx";
