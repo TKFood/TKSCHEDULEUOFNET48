@@ -32,6 +32,8 @@ namespace TKSCHEDULEUOFNET48
         SqlConnection sqlConn = new SqlConnection();
         SqlCommand sqlComm = new SqlCommand();
         string connectionString;
+        string APPROVEAL_NAME = "";
+        string APPROVEAL_PS = "";
 
         public FrmSCHEDULE()
         {
@@ -43,7 +45,11 @@ namespace TKSCHEDULEUOFNET48
             timer1.Start();
         }
 
-
+        private void FrmSCHEDULE_Load(object sender, EventArgs e)
+        {
+            APPROVEAL_NAME="iteng";
+            APPROVEAL_PS="PP@ssw0rd0";
+        }
         #region FUNCTION
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -116,8 +122,8 @@ namespace TKSCHEDULEUOFNET48
                 //EBUser ebuser = useruco.GetEBUser("b6f50a95-17ec-47f2-b842-4ad12512b431");
 
                 string publicKey = "PFJTQUtleVZhbHVlPjxNb2R1bHVzPitNdXJpamQxZ3YzMmZkVzlZUXdBNVNPa3g3bHR4cFUxYlM2UjZaRGU3Y2hXWFpJQVBXMitiRkVacTRUMEIrR3VTVUFkNDl5QnBkVUtFek1Sa1RwcGtaVFlkVGNOeTBJcVc4UVluWWRXNWdNQjRyNitjZGpobTRPamEyaGJybDVYQzdsY3N6cGVDSUg4TzZ1REQ5N0kxdjBUYUlHZkphejFiM2l6Y3h5R1R6VT08L01vZHVsdXM+PEV4cG9uZW50PkFRQUI8L0V4cG9uZW50PjwvUlNBS2V5VmFsdWU+";
-                string NAME = RSAEncrypt(publicKey, "iteng");
-                string PS = RSAEncrypt(publicKey, "PP@ssw0rd0");
+                string NAME = RSAEncrypt(publicKey, APPROVEAL_NAME);
+                string PS = RSAEncrypt(publicKey, APPROVEAL_PS);
 
                 Auth.Authentication auth = new Auth.Authentication();
                 auth.Url = "https://eip.tkfood.com.tw/UOF/PublicAPI/System/Authentication.asmx";
@@ -334,8 +340,9 @@ namespace TKSCHEDULEUOFNET48
         }
 
 
+
         #endregion
 
-
+      
     }
 }
