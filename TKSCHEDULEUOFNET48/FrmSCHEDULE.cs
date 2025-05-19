@@ -47,8 +47,18 @@ namespace TKSCHEDULEUOFNET48
 
         private void FrmSCHEDULE_Load(object sender, EventArgs e)
         {
-            APPROVEAL_NAME="iteng";
-            APPROVEAL_PS="PP@ssw0rd0";
+            //APPROVEAL_NAME = "iteng";
+            //APPROVEAL_PS = "PP@ssw0rd0";
+
+            DataTable DT = SEARCHUOF_TB_APPROVAL_ACCOUNT();
+
+            if (DT!=null && DT.Rows.Count>=1)
+            {
+                APPROVEAL_NAME = DT.Rows[0]["APPROVEAL_NAME"].ToString();
+                APPROVEAL_PS = DT.Rows[0]["APPROVEAL_PS"].ToString();
+            }
+
+            
         }
         #region FUNCTION
         private void timer1_Tick(object sender, EventArgs e)
@@ -165,6 +175,72 @@ namespace TKSCHEDULEUOFNET48
             { }
             
 
+        }
+        public DataTable SEARCHUOF_TB_APPROVAL_ACCOUNT()
+        {
+            SqlDataAdapter adapter1 = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder1 = new SqlCommandBuilder();
+            DataSet ds1 = new DataSet();
+            StringBuilder sbSql = new StringBuilder();
+            StringBuilder sbSqlQuery = new StringBuilder();
+
+            try
+            {
+                //connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                //sqlConn = new SqlConnection(connectionString);
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbUOF"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+                //庫存數量看LA009 IN ('20004','20006','20008','20019','20020'
+
+                sbSql.AppendFormat(@"                                     
+                                   SELECT 
+                                    [APPROVEAL_NAME]
+                                    ,[APPROVEAL_PS]
+                                    FROM [TKSCHEDULEUOFNET48].[dbo].[TB_APPROVAL_ACCOUNT]
+                                    )
+                              
+                                    ");
+
+
+                adapter1 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder1 = new SqlCommandBuilder(adapter1);
+                sqlConn.Open();
+                ds1.Clear();
+                adapter1.Fill(ds1, "ds1");
+                sqlConn.Close();
+
+                if (ds1.Tables["ds1"].Rows.Count >= 1)
+                {
+                    return ds1.Tables["ds1"];
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
         }
         public DataTable SEARCHUOFTB_WKF_TASK()
         {
